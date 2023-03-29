@@ -27,9 +27,129 @@ print(A%^%7)
 result_a <- t(C) %*% C
 result_b <- C %*% t(C)
 
+print("Dimensionen der Matrizen:")
 print(dim(result_a))
+print("Rang der Matrizen:")
 print(rankMatrix(result_a))
+print("Determinanten der Matrizen:") # Determinante sollte 0 sein, da Rang < Dimension(quadratischer Matrizen)
 print(det(result_a))
+print("=====================================")
+print("Dimensionen der Matrizen:")
 print(dim(result_b))
+print("Rang der Matrizen:")
 print(rankMatrix(result_b))
+print("Determinanten der Matrizen:")
 print(det(result_b))
+
+# c)
+# check for inverse of matrix B
+if (det(B) != 0) {
+  print("Inverse of B:")
+  print(inverseB<-solve(B))
+} else {
+  print("B is not invertible")
+}
+# check if result is correct
+print("B * B^-1:")
+print(B %*% solve(B))
+
+# d)
+# resolve linear equation system
+print("Solve linear equation system:")
+y <- c(100,200,300)
+
+print("x = ")
+tempMatrix <- C %*% (t(C) %*% A - 3 * t(C) %*% B)
+print(round(solve(tempMatrix) %*% y, digits = 2))
+
+# e)
+# find another solution for linear equation system
+
+print("--------------------")
+print(round(solve(tempMatrix,y), digits = 2))
+
+# f) find eigenvalues and eigenvectors of matrix A, is A positive definite?
+
+print("Eigenvalues of A:")
+print(eigenvalues <- eigen(A)$values)
+print("Eigenvectors of A:")
+print(eigenvectors <- eigen(A)$vectors)
+
+# check if A is positive definite
+if (all(eigenvalues > 0)) {
+  print("A is positive definite")
+} else {
+  print("A is not positive definite")
+}
+
+# Aufgabe 2
+# a)
+
+# write a function that takes a start value and a natural number as parameters.
+# The function should return 4 times the squareroot of the startValue plus the startValue
+
+dörte <- function(startValue, iterations) {
+  if (iterations == 0) {
+    return(startValue)
+  } else {
+    return(dörte(4 * sqrt(startValue) + startValue, iterations - 1))
+  }
+}
+
+print(paste("dörte(6.5, 8)", func(6.5, 8), sep = " "))
+
+# b)
+# Write a function that takes a natural number as parameter that represents the member of the fibonacci sequence.
+# The function should return all the fibonacci numbers till that given parameter.
+# e.g. fibonacci(6) should return 0,1,1,2,3,5
+
+
+fibonacci <- function(n) {
+  a <- 1
+  b <- 1
+  fib <- numeric(n)
+  
+  if (n >= 1) {
+    fib[1] <- a
+  }
+  
+  if (n >= 2) {
+    fib[2] <- b
+  }
+  
+  for (i in 3:n) {
+    fib[i] <- a + b
+    a <- b
+    b <- fib[i]
+  }
+  
+  return(fib)
+}
+
+print(paste("fibonacci(6)", toString((fibonacci(6))), sep = " "))
+
+
+# c)
+
+find_largest_element <- function(M, k) {
+  # Berechnen Sie Mk
+  Mk <- M %^% k
+  
+  # Finden Sie den Index des größten Elements in Mk
+  max_index <- which(Mk == max(abs(Mk)), arr.ind = TRUE)
+  
+  # Extrahieren Sie den Wert des größten Elements und dessen Zeilen-/Spaltenindizes
+  max_value <- Mk[max_index]
+  row_index <- max_index[1]
+  col_index <- max_index[2]
+  
+  # Gib das Ergebnis zurück
+  result <- list("Maximaler Wert" = max_value, "Zeilenindex" = row_index, "Spaltenindex" = col_index)
+  return(result)
+}
+
+
+
+
+
+
