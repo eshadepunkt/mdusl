@@ -202,3 +202,65 @@ print(oddsratio(wine$strong, wine$tasty))
 
 # Aufgabe 4
 # a)
+
+insurance <- read.csv("data/insurance.csv", header = TRUE, sep = ",")
+
+# b)
+
+print(summary(insurance$age))
+
+print(summary(insurance))
+
+# c)
+
+boxplot(insurance$age)
+
+# d)
+
+insurance$age_data <- cut(insurance$age,
+  breaks = c(0, 35, 60, Inf),
+  labels = c("jünger als 35", "zwischen 35 und 60", "älter als 60")
+)
+
+boxplot(insurance$charges ~ insurance$age_data,
+  main = "Versicherungsbeiträge nach Altersgruppen",
+  xlab = "Altersgruppe",
+  ylab = "Versicherungsbeitrag"
+)
+
+# e)
+
+hist(insurance$charges)
+
+hist(insurance$charges, breaks = 25)
+
+# f)
+
+print(table(insurance$region))
+print(table(insurance$region, insurance$smoker))
+
+# g)
+
+plot(insurance$age, insurance$charges,
+  col = ifelse(insurance$sex == "male",
+    "blue",
+    "#fa9595"
+  ),
+  pch = ifelse(insurance$sex == "male", 3, 19),
+  main = "Alter vs. Versicherungsbeitrag",
+  xlab = "Alter",
+  ylab = "Versicherungsbeitrag", cex = 1.5
+)
+legend("topright",
+  legend = c("female", "male"),
+  col = c("#fa9595", "blue"),
+  pch = c(19, 3)
+)
+
+# h)
+
+groups <- cut(insurance$charges,
+  breaks = c(0, 10000, 30000, Inf),
+  labels = c("weniger als 10000", "zwischen 10000 und 30000", "mehr als 30000")
+)
+print(insurance$group <- as.character(groups))
