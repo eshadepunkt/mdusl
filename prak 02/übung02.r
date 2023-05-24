@@ -259,8 +259,38 @@ legend("topright",
 
 # h)
 
-groups <- cut(insurance$charges,
-  breaks = c(0, 10000, 30000, Inf),
-  labels = c("weniger als 10000", "zwischen 10000 und 30000", "mehr als 30000")
+plot(insurance$age, insurance$charges,
+  col = ifelse(insurance$smoker == "yes",
+    ifelse(insurance$bmi > 30, "red", "orange"),
+    "green"
+  ),
+  main = "Versicherungsausgaben vs. Alter",
+  xlab = "Alter",
+  ylab = "Versicherungsausgaben", cex = 1.5
 )
-print(insurance$group <- as.character(groups))
+
+# i) 3 Classes Smokers, smokers with low BMI smokers with high BMI
+
+insurance$smoker_class <- ifelse(insurance$smoker == "yes",
+  ifelse(insurance$bmi < 30,
+    "Raucher und niedriger BMI",
+    "Raucher und hoher BMI"
+  ),
+  "Nichtraucher"
+)
+
+insurance$smoker_class <- factor(insurance$smoker_class,
+  levels = c(
+    "Nichtraucher",
+    "Raucher und niedriger BMI",
+    "Raucher und hoher BMI"
+  )
+)
+
+print(insurance[1, ])
+
+boxplot(insurance$charges ~ insurance$smoker_class,
+  main = "Versicherungsbeiträge nach Rauchergruppen",
+  xlab = "Rauchergruppe",
+  ylab = "Versicherungsbeitrag"
+)
